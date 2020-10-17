@@ -28,8 +28,8 @@ import java.util.UUID;
 
 public class Controller implements Initializable
 {
-    final String hostname = "patientsdb.cazbck0mpzss.us-east-1.rds.amazonaws.com";
-    final String dbname = "patientsDB";
+    final String hostname = "employee-db.cazbck0mpzss.us-east-1.rds.amazonaws.com";
+    final String dbname = "testdb";
     final String port = "3306";
     final String username = "martha";
     final String password = "martha1105";
