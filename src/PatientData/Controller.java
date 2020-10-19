@@ -52,27 +52,24 @@ public class Controller implements Initializable
     private Label loadingLabel;
     @FXML
     private ListView<Patient> patientList;
-    private ListView<String>patientList2;
+    //private ListView<String>patientList2;
     private ObservableList<Patient> items;
-    private ObservableList<String> items2;
+    //private ObservableList<String> items2;
 
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        /*items = patientList.getItems();
-        //items2 = patientList2.getItems();
+        items = patientList.getItems();
+        /*items2 = patientList2.getItems();
         Patient p1 = new Patient(UUID.randomUUID(), "Ana Lopez", "Female", "A-POS", 21, 123.2, 5.4);
         Patient p2 = new Patient(UUID.randomUUID(), "John Smith", "Male", "B-NEG", 19, 185.0, 5.11);
         Patient p3 = new Patient(UUID.randomUUID(), "Michael Johnson", "Male", "A-POS", 13, 135.4, 5.9);
         Patient p4 = new Patient(UUID.randomUUID(), "Crystal Evans", "Female", "O-POS", 18, 119.1, 5.8);
         Patient p5 = new Patient(UUID.randomUUID(), "David Hernandez", "Male", "O-POS", 15, 168.3, 5.10);
-        items.addAll(p1,p2,p3,p4,p5);
-
-         */
+        items.addAll(p1,p2,p3,p4,p5);*/
 
         GeneratePatient(5);
-
 
         LoadPatientsBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -166,7 +163,25 @@ public class Controller implements Initializable
                         System.out.println();
                     }
                 } catch (Exception ex) {
-                    System.out.println(" Error obtaining blood type:");
+                    System.out.println(" Error obtaining blood type: "+ex.getMessage());
+                }
+            }
+        });
+        MinorsBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try{
+                    Connection conn = DriverManager.getConnection(AWS_URL);
+                    Statement stmt = conn.createStatement();
+                    System.out.println("CONNECTION ESTABLISHED");
+                    ResultSet minorRS = stmt.executeQuery("SELECT * FROM PatientData WHERE age < 18");
+                    while(minorRS.next()){
+                        System.out.print(minorRS.getString("id"));
+                        System.out.print("\t");
+                        System.out.print(minorRS.getString("name"));
+                    }
+                }catch (Exception ex){
+                    System.out.println("ERROR retrieving results for patients under 81: "+ex.getMessage());
                 }
             }
         });
