@@ -13,8 +13,8 @@
 <Pane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PatientData.Controller">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0" />
-       <ListView fx:id="patientList">
-      </ListView>
+       <ListView fx:id="patientList" layoutY="14.0" />
+       <ListView fx:id="selectedPatientList" layoutX="258.0" layoutY="14.0" />
       <GridPane layoutX="561.0" layoutY="28.0" prefHeight="400.0" prefWidth="131.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

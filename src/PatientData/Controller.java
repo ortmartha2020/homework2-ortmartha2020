@@ -51,16 +51,18 @@ public class Controller implements Initializable
     @FXML
     private Label loadingLabel;
     @FXML
-    private ListView<Patient> patientList;
-    //private ListView<String>patientList2;
+    private ListView<String> patientList;
+    private ListView<Patient>selectedPatientList;
+    private ObservableList<String> items2;
     private ObservableList<Patient> items;
-    //private ObservableList<String> items2;
+
 
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        items = patientList.getItems();
+        //items = selectedPatientList.getItems();
+        //items2 = patientList.getItems();
         /*items2 = patientList2.getItems();
         Patient p1 = new Patient(UUID.randomUUID(), "Ana Lopez", "Female", "A-POS", 21, 123.2, 5.4);
         Patient p2 = new Patient(UUID.randomUUID(), "John Smith", "Male", "B-NEG", 19, 185.0, 5.11);
@@ -78,6 +80,18 @@ public class Controller implements Initializable
                 loadingLabel.setText("Loading...");
                 loadingLabel.setBackground(new Background(new BackgroundFill(Color.ROYALBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
                 FillTable();
+                try{
+                    Statement stmt = GetDBStatement();
+                    if(stmt != null){
+                        String sqlStmt = "SELECT * FROM PatientData";
+                        ResultSet result = stmt.executeQuery(sqlStmt);
+                        while(result.next()){
+                            items2.add(result.getString("name"));
+                        }
+                    }
+                }catch (Exception ex){
+                    System.out.println("ERROR LOADING PATIENT DATA TO LIST: "+ ex.getMessage());
+                }
             }
         });
 
@@ -85,6 +99,7 @@ public class Controller implements Initializable
             @Override
             public void handle(ActionEvent actionEvent) {
                 LoadPatients();
+                loadingLabel.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE,CornerRadii.EMPTY,Insets.EMPTY)));
             }
         });
         DeleteBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -110,6 +125,7 @@ public class Controller implements Initializable
         FemaleBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                loadingLabel.setBackground(new Background(new BackgroundFill(Color.PINK, CornerRadii.EMPTY, Insets.EMPTY)));
                 try
                 {
                     Connection conn = DriverManager.getConnection(AWS_URL);
@@ -140,6 +156,7 @@ public class Controller implements Initializable
         BloodTypeBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                loadingLabel.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
                 try {
                     Connection conn = DriverManager.getConnection(AWS_URL);
                     Statement stmt = conn.createStatement();
@@ -170,6 +187,7 @@ public class Controller implements Initializable
         MinorsBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                loadingLabel.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
                 try{
                     Connection conn = DriverManager.getConnection(AWS_URL);
                     Statement stmt = conn.createStatement();
@@ -186,12 +204,24 @@ public class Controller implements Initializable
             }
         });
 
-        /*patientList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Patient>() {
+        /*selectedPatientList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Patient>() {
             @Override
             public void changed(ObservableValue<? extends Patient> observableValue, Patient patients, Patient patients1) {
                 loadingLabel.setText("Selected Patients: "+patients1);
             }
         });*/
+    }
+    private Statement GetDBStatement(){
+        try{
+            Connection conn = DriverManager.getConnection(AWS_URL);
+            Statement stmt = conn.createStatement();
+            System.out.println("CONNECTION ESTABLISHED");
+
+            return stmt;
+        }catch (Exception ex){
+            System.out.println("Error: "+ex.getMessage());
+            return null;
+        }
     }
 
         private void FillTable ()
