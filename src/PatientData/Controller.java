@@ -16,6 +16,8 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+
 import java.net.PortUnreachableException;
 import java.net.URL;
 import java.sql.Connection;
@@ -106,6 +108,8 @@ public class Controller implements Initializable
             @Override
             public void handle(ActionEvent actionEvent)
             {
+                loadingLabel.setText("Deleting Table...");
+                loadingLabel.setBackground(new Background(new BackgroundFill(Color.GRAY,CornerRadii.EMPTY,Insets.EMPTY)));
                 try
                 {
                    Connection conn = DriverManager.getConnection(AWS_URL);

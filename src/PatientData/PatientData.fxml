@@ -6,13 +6,11 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
 <Pane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PatientData.Controller">
    <children>
-      <HBox prefHeight="100.0" prefWidth="200.0" />
        <ListView fx:id="patientList" layoutY="14.0" />
        <ListView fx:id="selectedPatientList" layoutX="258.0" layoutY="14.0" />
       <GridPane layoutX="561.0" layoutY="28.0" prefHeight="400.0" prefWidth="131.0">
